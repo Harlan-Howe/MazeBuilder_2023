@@ -11,7 +11,7 @@ import java.util.Stack;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseListener, ActionListener
+public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseListener
 {
 	private MazeCell[][] theGrid;
 	private int selectionMode;
@@ -39,13 +39,6 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 		bsThread = new BuildSolveThread();
 		bsThread.start();
 	}
-	
-	public void actionPerformed(ActionEvent aEvt)
-	{
-		System.out.println("action.");
-		repaint();
-	}
-	
 	
 	/**
 	 * determines whether the given place location is within the maze, but not on one of the edges.
@@ -93,7 +86,7 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 	/**
 	 * gets the "MazeCell" item in theGrid in the given location
 	 * @param p - the location of the cell we want to get.
-	 * @return - the MazeCell at this location.
+	 * @return - the MazeCell at this location, or null if p is not in the grid.
 	 */
 	public MazeCell cellAt(Place p)
 	{
@@ -117,6 +110,10 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 		Place chosenItem = null;
 		// TODO: Insert your code here.
 
+		// Note #1: (int)(Math.random()*8) will give one of (0, 1, 2, 3, 4, 5, 6, 7)
+        // Note #2: "List<Place>" is a parent class for "ArrayList<Place>."
+		//           You can assume that size(), set(), get(), insert(), remove() etc. work for it - ArrayList
+		//           overrides these methods.
 		//-----------------------------
 		return chosenItem;
 	}
@@ -152,12 +149,10 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 		generateWallCodes();
 		repaint();
 		setStatus("Maze refilled.");
-		
-		
 	}
 	
 	/**
-	 * resets all the "solve" states from the last time we solved the maze.
+	 * resets all the popped/pushed "solve" states from the last time we solved the maze.
 	 */
 	public void resetSolveStates()
 	{
@@ -230,7 +225,6 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 		if (loc.row()>0 && loc.column()>0 && cellAt(loc.north().west()).getStatus() == SOLID)
 			output+=NORTHWEST;
 
-
 		return output;
 	}
 
@@ -246,7 +240,6 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 	{
 		bsThread.setActionMode(ACTION_MODE_SOLVING);
 	}
-
 
 	/**
 	 * draws the maze in the main part of the window.
@@ -272,7 +265,6 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 			}
 	}
 
-	
 // ---------------------------   GUI stuff  ---------------------------------------------
 	/**
 	 * used by the frame to tell this class about the status label. You shouldn't need to mess with this.
@@ -309,9 +301,12 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 	
 	// ---------------------------- used MouseListener methods -------------------------
 	@Override
+	/**
+	 * the user just let go of the mouse inside this panel.
+	 */
 	public void mouseReleased(MouseEvent e)
 	{
-		System.out.println("dealing with mouse click in panel.");
+		System.out.println("dealing with mouse release in panel.");
 		// TODO Auto-generated method stub
 		int r = e.getY()/CELL_SIZE;
 		int c = e.getX()/CELL_SIZE;
@@ -373,10 +368,13 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 
 		public void setActionMode(int mode)
 		{
-			System.out.println("Updating action mode to: "+mode);
 			actionMode = mode;
 		}
 
+		/**
+		 * loop forever, waiting for actionMode to change. If it has, call rebuildMaze() or
+		 * findPathFromStartToFinish(). Then wait for the next time.
+		 */
 		public void run()
 		{
 			while (true)
@@ -394,13 +392,8 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 						break;
 
 				}
-				try
-				{
-					Thread.sleep(250);
-				} catch (InterruptedException iExp)
-				{
-					iExp.printStackTrace();
-				}
+				// wait for a quarter second before checking again, so we don't hog the CPU cycles.
+				falconSnooze(250);
 			}
 		}
 
@@ -412,7 +405,7 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 		{
 			System.out.println("Rebuilding Maze.");
 			resetMazeToSolid();
-			// TODO: insert your code here..... Do this after you have written the TODOs above and in Place.java.
+			// TODO: insert your code here..... Do this AFTER you have written the TODOs above and in Place.java.
 			// • I recommend you start with Stack<Place> myStack = new Stack<Place>();
 			// • Every time you say myStack.pop(), you should then say falconSnooze(BUILD_DELAY_MS) to allow the
 			//   animation to happen.
@@ -437,7 +430,7 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 			resetSolveStates();
 			optimal.clear();
 			setStatus("Searching maze");
-			// TODO: insert your code here.   Do this after you have written rebuildMaze.
+			// TODO: insert your code here.   Do this AFTER you have written rebuildMaze.
 			Stack<Place> mySolutionStack = new Stack<Place>();
 			// • There is already a stack of Places called "optimal" that is a class variable.
 			// • Whenever you push or pull from mySolutionStack, you should say cellAt(loc).setPushed(true) or
@@ -452,6 +445,10 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 
 		}
 
+		/**
+		 * pauses this thread to avoid hogging the CPU and to insert a delay for animation.
+		 * @param t - the amount of time to pause, in milliseconds.
+		 */
 		public void falconSnooze(int t)
 		{
 			try
