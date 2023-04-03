@@ -227,12 +227,12 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 	}
 
 	/**
-	 * User just pressed "Rebuild." Sets the flag in the BuildSolveThread to start building the maze.
+	 * User just pressed "Rebuild." Sets the actionMode flag in the BuildSolveThread to start building the maze.
 	 */
 	public void doRebuild() { bsThread.setActionMode(ACTION_MODE_REBUILDING); }
 
 	/**
-	 * User just pressed "Solve." Sets the flag in the BuildSolveThread to start solving the maze.
+	 * User just pressed "Solve." Sets the actionMode flag in the BuildSolveThread to start solving the maze.
 	 */
 	public void doSolve()
 	{
