@@ -17,7 +17,7 @@ public class MazeBuilderFrame extends JFrame implements MazeConstants, ActionLis
 	private JRadioButton endSelectorButton;
 	private JButton rebuildButton;
 	private JButton solveButton;
-	private JLabel status;
+	private JLabel statusLabel;
 	
 	public MazeBuilderFrame()
 	{
@@ -59,8 +59,8 @@ public class MazeBuilderFrame extends JFrame implements MazeConstants, ActionLis
 		
 		bottomArea.add(buttonsBox);
 		
-		status = new JLabel(""); // a place where text can go in the GUI - at first, this will be empty/invisible.
-		bottomArea.add(status);
+		statusLabel = new JLabel(""); // a place where text can go in the GUI - at first, this will be empty/invisible.
+		bottomArea.add(statusLabel);
 		
 		
 		startSelectorButton.addActionListener(this);
@@ -68,7 +68,7 @@ public class MazeBuilderFrame extends JFrame implements MazeConstants, ActionLis
 		rebuildButton.addActionListener(this);
 		solveButton.addActionListener(this);
 		
-		mainPane.attachStatusLabel(status);  // tell the panel about the label, so it can change what it says.
+		mainPane.attachStatusLabel(statusLabel);  // tell the panel about the label, so it can change what it says.
 	}
 	
 	public void actionPerformed(ActionEvent aEvt)

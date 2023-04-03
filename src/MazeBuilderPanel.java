@@ -183,7 +183,7 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 			for (int c=0; c<NUM_COLS; c++)
 			{
 				Place loc = new Place(r,c);
-				cellAt(loc).setWallCode(getWallCodeForCell(loc));
+				cellAt(loc).setWallCode(getWallCodeForCellAt(loc));
 			}
 	}
 
@@ -193,11 +193,11 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 			for (int deltaCol = -1; deltaCol <= 1; deltaCol++)
 			{
 				Place loc2 = new Place(loc.row()+deltaRow, loc.column()+deltaCol);
-				cellAt(loc2).setWallCode(getWallCodeForCell(loc2));
+				cellAt(loc2).setWallCode(getWallCodeForCellAt(loc2));
 			}
 	}
 
-	public int getWallCodeForCell(Place loc)
+	public int getWallCodeForCellAt(Place loc)
 	{
 		int output = 0;
 

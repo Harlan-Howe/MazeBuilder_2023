@@ -42,7 +42,7 @@ public class MazeBuilderPanelTest
 	}
 
 	@Test
-	public void testPickPLaceOffList()
+	public void testPickPlaceOffList()
 	{
 		MazeBuilderPanel mbp = new MazeBuilderPanel();
 		ArrayList<Place> items = new ArrayList<Place>();
