@@ -170,13 +170,11 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 		optimal.clear();
 		repaint();
 	}
-	
-	
-	
-	
 
-
-
+	/**
+	 * loops through the entire grid and updates the wall codes for each cell.
+	 * (Used for "fancy" walls. Activate via MazeConstants.SHOULD_DRAW_WALLS_AS_LINES.)
+	 */
 	public void generateWallCodes()
 	{
 		for (int r=0; r<NUM_ROWS; r++)
@@ -187,16 +185,30 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 			}
 	}
 
+	/**
+	 * loops through the nine cells in the vicinity of the given location and updates their wall codes.
+	 * (Used for "fancy" walls. Activate via MazeConstants.SHOULD_DRAW_WALLS_AS_LINES.)
+	 * This will cause each of the nine squares to check its immediate neighbors.
+	 * @param loc - the place whose neighborhood we should scan.
+	 */
 	public void updateWallCodesInNeighborhood(Place loc)
 	{
 		for (int deltaRow = -1; deltaRow <= 1; deltaRow++)
 			for (int deltaCol = -1; deltaCol <= 1; deltaCol++)
 			{
 				Place loc2 = new Place(loc.row()+deltaRow, loc.column()+deltaCol);
-				cellAt(loc2).setWallCode(getWallCodeForCellAt(loc2));
+				if (inGrid(loc2))
+					cellAt(loc2).setWallCode(getWallCodeForCellAt(loc2));
 			}
 	}
 
+	/**
+	 * checks all the neighbors of this cell (N, NE, E, SE, S, SW, W, NW) to see whether they
+	 * are solid. Generates a number 0-255 representing which of the directions have solids.
+	 * (Used for "fancy" walls. Activate via MazeConstants.SHOULD_DRAW_WALLS_AS_LINES.)
+	 * @param loc - a location whose neighbors we wish to scan.
+	 * @return - an 8-bit binary number indicating which neighbors have solid states.
+	 */
 	public int getWallCodeForCellAt(Place loc)
 	{
 		int output = 0;
