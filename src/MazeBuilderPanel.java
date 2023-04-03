@@ -234,14 +234,13 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 		return output;
 	}
 
-	public void doRebuild()
-	{
-		System.out.println("responding to rebuild button.");
-		bsThread.setActionMode(ACTION_MODE_REBUILDING);
-	}
+	/**
+	 * User just pressed "Rebuild." Sets the flag in the BuildSolveThread to start building the maze.
+	 */
+	public void doRebuild() { bsThread.setActionMode(ACTION_MODE_REBUILDING); }
 
 	/**
-	 * attempts to find a path from the start location to the end location.
+	 * User just pressed "Solve." Sets the flag in the BuildSolveThread to start solving the maze.
 	 */
 	public void doSolve()
 	{
@@ -249,7 +248,6 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 	}
 
 
-	
 	/**
 	 * draws the maze in the main part of the window.
 	 */
