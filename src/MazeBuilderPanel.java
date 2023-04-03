@@ -276,7 +276,7 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 // ---------------------------   GUI stuff  ---------------------------------------------
 	/**
 	 * used by the frame to tell this class about the status label. You shouldn't need to mess with this.
-	 * @param lab
+	 * @param lab - the label we are receiving from the frame.
 	 */
 	public void attachStatusLabel(JLabel lab)
 	{
@@ -284,7 +284,7 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 	}
 	/**
 	 * Allows the program to display a short status message in the bottom of the window.
-	 * @param stat
+	 * @param stat - a status string to show on the frame's status label.
 	 */
 	public void setStatus(String stat)
 	{
@@ -360,7 +360,7 @@ public class MazeBuilderPanel extends JPanel implements MazeConstants, MouseList
 	public void mouseExited(MouseEvent e)
 	{ }
 	
-	// --------------------------------------  BuildSolveThread ----------------------------------------
+	// --------------------------------------  BuildSolveThread class ----------------------------------------
 	public class BuildSolveThread extends Thread
 	{
 		private int actionMode;
