@@ -3,6 +3,11 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * This class is one that you can run to test out the methods you are writing in the Place class. The
+ * behavior is a little bit different than the normal public static void main mode. See Mr. Howe if you
+ * have any questions!
+ */
 public class PlaceTest
 {
 
@@ -17,6 +22,8 @@ public class PlaceTest
 		Place A = new Place(3,5);
 		Place B = new Place(3,5);
 		Place C = new Place(5,3);
+		// Note: the IDE points out that I could have used assertEquals(A, A) and assertNotEquals(A,C) below,
+		//       but I've intentionally left it the way I have to emphasize the boolean return value of equals.
 		assertTrue(A.equals(A));
 		assertTrue(A.equals(B));
 		assertTrue(B.equals(A));

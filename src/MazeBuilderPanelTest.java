@@ -4,7 +4,11 @@ import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
-
+/**
+ * This class is one that you can run to test out the methods you are writing in the MazeBuilderPanel class. The
+ * behavior is a little bit different than the normal public static void main mode. See Mr. Howe if you
+ * have any questions!
+ */
 public class MazeBuilderPanelTest
 {
 
